@@ -5,8 +5,6 @@
 
 using namespace std;
 
-
-
 int main()
 {
 	// 변수 선언
@@ -32,6 +30,10 @@ int main()
 
 	// 파일 탐색 메인 루프
 	do {
+		// 파일이 디렉토리파일인지 확인
+		if (fd.attrib & _A_SUBDIR)
+			continue;// 디렉토리라면 별도의 처리 없이 넘어감
+
 		string temp = fd.name;
 		if (temp.find(keyword) == string::npos) {
 			// 파일명에 keyword 미존재
@@ -39,6 +41,7 @@ int main()
 		}
 		else {
 			// 파일명에 keyword 존재
+
 		}
 	} while (_findnext(handle, &fd) == 0);
 	// 연결 해제
