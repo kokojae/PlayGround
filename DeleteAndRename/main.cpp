@@ -5,6 +5,8 @@
 
 using namespace std;
 
+
+
 int main()
 {
 	// 변수 선언
@@ -23,15 +25,21 @@ int main()
 	path += "\\*.*";
 
 	// 첫 파일 탐색 및 파일 유무 확인
-	if ((handle = _findfirst(path.c_str(), &fd)) == -1L)
-	{
+	if ((handle = _findfirst(path.c_str(), &fd)) == -1L) {
 		cout << "No file in directory!" << endl;
 		return 0;
 	}
 
 	// 파일 탐색 메인 루프
 	do {
-		cout << fd.name << endl;
+		string temp = fd.name;
+		if (temp.find(keyword) == string::npos) {
+			// 파일명에 keyword 미존재
+
+		}
+		else {
+			// 파일명에 keyword 존재
+		}
 	} while (_findnext(handle, &fd) == 0);
 	// 연결 해제
 	_findclose(handle);
