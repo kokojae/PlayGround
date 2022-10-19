@@ -32,24 +32,22 @@ int main()
 			continue;// 디렉토리라면 별도의 처리 없이 넘어감
 
 		string temp = fd.name;
+		// 파일명에 keyword 미존재 시
 		if (temp.find(keyword) == string::npos) {
-			// 파일명에 keyword 미존재
-
-			int nResult = remove(fd.name);
-
+			// 파일 경로 생성
+			string filePath = path + "\\" + fd.name;
+			// 파일 삭제
+			int nResult = remove(filePath.c_str());
+			// 삭제 성공 시
 			if (nResult == 0)
-			{
-				printf("파일 삭제 성공");
-			}
+				cout << "Complated remove file: " << filePath << endl;
+			// 삭제 실패 시
 			else if (nResult == -1)
-			{
-				perror("파일 삭제 실패");
-			}
-
+				cout << "Failed remove file: " << filePath << endl;
 		}
+		// 파일명에 keyword 존재
 		else {
-			// 파일명에 keyword 존재
-
+			
 		}
 	} while (_findnext(handle, &fd) == 0);
 	// 연결 해제
