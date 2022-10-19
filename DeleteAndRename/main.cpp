@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <iostream>
 #include <io.h>
 #include <string>
@@ -31,9 +30,8 @@ int main()
 		if (fd.attrib & _A_SUBDIR)
 			continue;// 디렉토리라면 별도의 처리 없이 넘어감
 
-		string temp = fd.name;
 		// 파일명에 keyword 미존재 시
-		if (temp.find(keyword) == string::npos) {
+		if (string(fd.name).find(keyword) == string::npos) {
 			// 파일 경로 생성
 			string filePath = path + "\\" + fd.name;
 			// 파일 삭제
@@ -47,7 +45,22 @@ int main()
 		}
 		// 파일명에 keyword 존재
 		else {
-			
+			// 파일 기존 경로
+			string filePath = path + "\\" + fd.name;
+			// 변경할 파일명
+			string change = fd.name;
+			// 키워드 삭제
+			for (char c : keyword)
+				change.erase(remove(change.begin(), change.end(), c), change.end());
+			// 파일 변경할 경로
+			string renamePath = path + "\\" + change;
+
+			// 파일명 변경에 실패했다면
+			if (rename(filePath.c_str(), renamePath.c_str()) != 0)
+				cout << "Failed rename file: " << filePath << endl;
+			// 파일명 변경에 성공했다면
+			else
+				cout << "Complated rename file: " << filePath << endl;
 		}
 	} while (_findnext(handle, &fd) == 0);
 	// 연결 해제
