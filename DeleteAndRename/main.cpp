@@ -44,6 +44,26 @@ int main()
 				cout << "Failed remove file: " << filePath << endl;
 		}
 		// 파일명에 keyword 존재
+		else 			continue;
+	} while (_findnext(handle, &fd) == 0);
+	// 연결 해제
+	_findclose(handle);
+
+	// 첫 파일 탐색 및 파일 유무 확인
+	if ((handle = _findfirst((path + "\\*.*").c_str(), &fd)) == -1L) {
+		cout << "No file in directory!" << endl;
+		return 0;
+	}
+
+	// 파일 탐색 메인 루프
+	do {
+		// 파일이 디렉토리파일인지 확인
+		if (fd.attrib & _A_SUBDIR)
+			continue;// 디렉토리라면 별도의 처리 없이 넘어감
+
+		// 파일명에 keyword 미존재 시
+		if (string(fd.name).find(keyword) == string::npos) continue;
+		// 파일명에 keyword 존재
 		else {
 			// 파일 기존 경로
 			string filePath = path + "\\" + fd.name;
