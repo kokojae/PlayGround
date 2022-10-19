@@ -19,11 +19,8 @@ int main()
 	cout << "keyword: ";
 	cin >> keyword;
 
-	// 타일 탐색을 위한 후처리
-	path += "\\*.*";
-
 	// 첫 파일 탐색 및 파일 유무 확인
-	if ((handle = _findfirst(path.c_str(), &fd)) == -1L) {
+	if ((handle = _findfirst((path + "\\*.*").c_str(), &fd)) == -1L) {
 		cout << "No file in directory!" << endl;
 		return 0;
 	}
@@ -37,6 +34,17 @@ int main()
 		string temp = fd.name;
 		if (temp.find(keyword) == string::npos) {
 			// 파일명에 keyword 미존재
+
+			int nResult = remove(fd.name);
+
+			if (nResult == 0)
+			{
+				printf("파일 삭제 성공");
+			}
+			else if (nResult == -1)
+			{
+				perror("파일 삭제 실패");
+			}
 
 		}
 		else {
